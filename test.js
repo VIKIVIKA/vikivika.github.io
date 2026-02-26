@@ -157,7 +157,7 @@
                         let componentType = widgetData?.cf_widget?.theme?.widgets?.[widgetType]?.type ?? 'bubble';
                         let cfContext = widgetData?.cf_widget?.chatfactory_context?.context ? `/aichat/${widgetData.cf_widget.chatfactory_context.context}` : '';
                         let agentStatus = widgetData?.cf_widget?.is_agent_available ?? false;
-                        let agentSource = `${origin}${cfContext}?initiator=chat_widget&widget_token=${token}&widget_type=${widgetType}&activator=${componentType}&url=${window.parent.location.href}`;
+                        let agentSource = `http://buzzdata.buzzdata.local:4000/aichat/mycontex?initiator=chat_widget&widget_token=${token}&widget_type=${widgetType}&activator=${componentType}&parent_url=${window.parent.location.href}`;
 
                         const widgetConfig = {
                             apiHost: apiHost,

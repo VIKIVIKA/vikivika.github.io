@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing · Back-button test</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="logo" href="index.html">◆ TESTCO</a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="pricing.html" aria-current="page">Pricing</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Pricing</h1>
+    <p class="subtitle">Made-up tiers for testing full-page navigation only.</p>
+
+    <div class="cards">
+      <div class="card"><h3>Starter</h3><p>$0 · Community support · 3 hosts</p></div>
+      <div class="card"><h3>Team</h3><p>$79/host · Business hours support</p></div>
+      <div class="card"><h3>Enterprise</h3><p>Talk to us · 24/7 support · SOC 2 controls</p></div>
+    </div>
+
+    <section>
+      <h2>What next</h2>
+      <p>Head to <a href="about.html">About</a>, then press Back a few times. You should return through <em>Features → Products → Home</em> in the same number of clicks.</p>
+    </section>
+  </main>
+
+  <footer>back-button-test · PFS-4400 repro harness</footer>
+
+  <script src="history-probe.js"></script>
+  <script src="widget-init.js"></script>
+</body>
+</html>

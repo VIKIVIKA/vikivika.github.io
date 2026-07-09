@@ -1,6 +1,6 @@
 # back-button-test
 
-A tiny multi-page site to reproduce and verify fixes for [PFS-4400](https://kaltura.atlassian.net/browse/PFS-4400) — the Safari back-button bug caused by the ChatFactory widget iframe adding extra entries to the parent window's session history.
+A tiny multi-page site to reproduce and verify fixes for — the Safari back-button bug caused by the ChatFactory widget iframe adding extra entries to the parent window's session history.
 
 It is intentionally **not a SPA**. Each nav link is a full page load, which is what triggers the widget iframe to be re-inserted and re-navigated on every top-level navigation — the exact condition the bug needs.
 

@@ -46,7 +46,7 @@ Notes:
 - The widget is fetched cross-origin from `cdn-app.pathfactory-development.com`. The widget script's XHR to `jukebox.pathfactory-development.com` uses `withCredentials: true`; if that CORS check rejects a Pages origin, the widget won't mount. In that case, run locally or temporarily allowlist the Pages origin on the dev jukebox.
 - `.nojekyll` is included so Pages serves the folder verbatim.
 
-## How to reproduce PFS-4400 (buggy build)
+
 
 1. Open **Safari**, go to the site (local or Pages URL).
 2. Watch the debug panel bottom-right. On first load `history.length` will be 1.

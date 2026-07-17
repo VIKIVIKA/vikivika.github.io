@@ -291,7 +291,6 @@
                         let componentType = widgetData?.cf_widget?.theme?.widgets?.[widgetType]?.type ?? 'bubble';
                         let cfContext = widgetData?.cf_widget?.chatfactory_context?.context ? `/aichat/${widgetData.cf_widget.chatfactory_context.context}` : '';
                         let agentStatus = widgetData?.cf_widget?.is_agent_available ?? false;
-                        let agentSource = `${origin}${cfContext}?initiator=chat_widget&widget_token=${token}&widget_type=${widgetType}&activator=${componentType}&parent_url=${window.parent.location.href}`;
                         let handshakeDomain = initConfig.handshakeDomain ?? widgetData?.cf_widget?.handshake_domain;
 
                         const widgetConfig = {
@@ -306,7 +305,6 @@
                             embedTarget: embedTarget,
                             embedPosition: embedPosition,
                             embedShieldBackground: embedShieldBackground,
-                            agentSource: agentSource,
                             handshakeDomain: handshakeDomain,
                             cfContext: cfContext,
                             agentStatus: agentStatus,
@@ -359,6 +357,15 @@
             }
         }
 
+        // Build the iframe URL on demand so the frame can load dynamically
+        // instead of eagerly at render time.
+        const buildAgentSource = (widgetConfig) => {
+            const { origin, cfContext, token, widgetType, componentType } = widgetConfig;
+            let parentUrl = '';
+            try { parentUrl = window.parent.location.href; } catch (e) { parentUrl = ''; }
+            return `${origin}${cfContext}?initiator=chat_widget&widget_token=${token}&widget_type=${widgetType}&activator=${componentType}&parent_url=${parentUrl}`;
+        }
+
         const checkCookieConsentStatus = (scope) => {
             try {
                 const environment = scope?.__PATHFACTORY__ ? scope?.__PATHFACTORY__?.environment : (window?.__PATHFACTORY__?.environment ?? {});
@@ -381,7 +388,7 @@
 
         const checkAgentAvailabilityInCORSCase = async (widgetConfig) => {
             let widgetType = widgetConfig.widgetType;
-            let url = widgetConfig.agentSource;
+            let url = buildAgentSource(widgetConfig);
             let containerId = `chatAgentCheckShield-${widgetConfig.token}-${widgetConfig.widgetType}`;
             try {
                 const response = await fetch(url, { method: 'HEAD' }); // just gets headers
@@ -1271,7 +1278,7 @@
                         </div>
                         <div class="pf-cf-spinner" id="pfCfSpinner"></div>
                         <div class="pf-cf-iframe-container" id="pfCfIframeContainer">
-                            <iframe id="pfCfIframe" src="widget.agentSource" frameborder="0" allowfullscreen></iframe>
+                            <iframe id="pfCfIframe" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -1568,9 +1575,9 @@
                     let containerRefreshed = false;
                     try {
                         let pfConsent = checkCookieConsentStatus(iframe?.contentWindow);
-                        if (iframe.src.includes('widget.agentSource') || !pfConsent) {
+                        if (!iframe.src || iframe.src === 'about:blank' || !pfConsent) {
                             pfCfDbg.log(`${widgetConfig.widgetType} -> ` + (!pfConsent ? 'pfConsent not available and the ' : '') + 'container is auto refreshed to initialize frame source');
-                            let iframeSrc = widgetConfig.agentSource;
+                            let iframeSrc = buildAgentSource(widgetConfig);
                             iframe.src = iframeSrc;
                             containerRefreshed = true;
                         }
